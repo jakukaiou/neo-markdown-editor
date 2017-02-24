@@ -1,3 +1,6 @@
+import '../../node_modules/bulma/css/bulma.css';
+import '../scss/test.scss';
+
 class HelloWorld{
     public testText:string;
     constructor(){

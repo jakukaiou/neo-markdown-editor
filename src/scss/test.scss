@@ -1,0 +1,23 @@
+@charset "utf-8";
+ 
+$MAX_CONTENT_WIDTH       : 960px;
+$KEY_COLOR               :  #222;
+ 
+#header
+{
+        width         : $MAX_CONTENT_WIDTH;
+ 
+        background    : $KEY_COLOR;
+}
+ 
+#container
+{
+        width         : $MAX_CONTENT_WIDTH;
+}
+ 
+#footer
+{
+        width         : $MAX_CONTENT_WIDTH;
+ 
+        background    : $KEY_COLOR;
+}
