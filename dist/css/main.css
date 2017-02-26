@@ -6066,3 +6066,103 @@ label.panel-block:hover {
 #footer {
   width: 960px;
   background: #222; }
+html {
+    height: 100%;
+}
+
+body {
+    height: 100%;
+    margin: 0;
+}
+
+.rme-nav_area{
+    display: flex;
+    flex-direction: column;
+    min-height: 80px;
+    position: fixed;
+    width: 100%;
+    z-index: 20;
+
+    border: solid 1px;
+    background-color: #ffffff;
+}
+
+.rme-nav_col{
+    flex: 1;
+    width: 100%;
+    height: 40px;
+}
+
+.rme-nav_col:last-child{
+    border-top: solid 1px;
+}
+
+.rme-nav_col p{
+    width: 100%;
+    height: 40px;
+}
+
+.rme-nav_col p input{
+    width: 100% !important;
+    height: 40px;
+    border: none;
+}
+
+.rme-nav_col p .button{
+    width: 80px !important;
+    height: 40px;
+}
+
+.rme-editor_content{
+    width: 100%;
+    display: flex;
+    position: absolute;
+    top: 80px;
+}
+
+.rme-editor_edit{
+    flex: 1;
+    border: solid 1px;
+    margin: 0;
+    padding: 0;
+    word-wrap: break-word;
+    word-break: break-all;
+    white-space: pre-wrap;
+
+    padding-bottom: 700px;
+}
+
+.rme-editor_edit_inner{
+    height: 100%;
+    padding-top: 25px;
+    padding-left: 25px;
+    padding-right: 25px;
+}
+
+.rme-editor_edit_inner:focus{
+    outline: 0;
+}
+
+.rme-editmenu{
+    background-color: #000000;
+    color: #ffffff;
+}
+
+.rme-editor_render{
+    width: 100%;
+    flex: 1;
+
+    padding-top: 25px;
+    padding-left: 25px;
+    padding-right: 25px;
+    padding-bottom: 700px;
+    word-break: break-all;
+
+    border-top: solid 1px;
+    border-bottom: solid 1px;
+    border-right: solid 1px;
+}
+
+component{
+    padding: 10px;
+}
