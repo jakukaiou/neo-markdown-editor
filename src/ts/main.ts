@@ -1,6 +1,3 @@
-/// <reference path="../../node_modules/@types/mithril/index.d.ts" />
-import * as m from 'mithril';
-
 /// <reference path="../../node_modules/@types/marked/index.d.ts" />
 import * as marked from 'marked';
 
@@ -10,8 +7,89 @@ import '../scss/rme.css';
 
 //GennaiEditor仕様
 //edit側の記述はdiv要素に分割されて入る
+class GennaiEditor{
 
-class tGennaiEditor{
+    constructor(target:Element,source:any){
+        window['MathJax'].Hub.Queue(['Typeset',window['MathJax'].Hub,target]);
+        let GEeditorString:string = 
+        '<div class="rme-nav_area">' +
+            '<div class="rme-nav_col">' +
+                '<p class="control has-addons">' +
+                    '<input class="input" type="text" placeholder="タイトルを入力">' +
+                    '<a class="button is-info postbutton">' +
+                        '投稿' +
+                    '</a>' +
+                '</p>' +
+            '</div>' +
+            '<div class="rme-nav_col rme-editmenu">' +
+                'ここにエディットメニュー' +
+            '</div>' +
+        '</div>' +
+
+        '<div class="rme-editor_content">' +
+            '<pre class="rme-editor_edit">' +
+                '<div class="rme-editor_edit_inner" contenteditable="true"></div>' +
+            '</pre>' +
+            '<div class="rme-editor_render content">' +
+                'When $$$a \\ne 0$$$, there are two solutions to $$$ax^2 + bx + c = 0$$$ and they are $$$x = {-b \\pm \\sqrt{b^2-4ac} \\over 2a}.$$$'
+            '</div>'
+        '</div>';
+
+        target.innerHTML = GEeditorString;
+
+        let editArea = document.querySelector('.rme-editor_edit_inner');
+        let rennderArea = document.querySelector('.rme-editor_render');
+
+        let render = new SourceRender(editArea,rennderArea,null);
+    }
+}
+
+class SourceRender{
+    private editArea:Element;
+    private renderArea:Element;
+
+    constructor(editElement:Element,renderElement:Element,source:any){
+        //sourceにはeditの初期値が入る
+        this.editArea = editElement;
+        this.renderArea = renderElement;
+        this.editArea.innerHTML = '';
+
+        if(source === null){
+            let firstEditor = new Editor();
+
+            this.editArea.appendChild(firstEditor.editNode);
+        }
+    }
+    
+}
+
+class Editor{
+    public editNode: Element;
+
+    constructor(){
+        this.editNode = document.createElement('div');
+        this.editNode.innerHTML = 'extends node';
+    }
+}
+
+//第一引数:ターゲットのdom 第二引数:初期値の配列
+//let hello = new tGennaiEditor(document.querySelector('.rme-editor_content'),["aa","bb"]);
+window.onload = function(){
+    let gennaiEditor = new GennaiEditor(document.querySelector('body'),null);
+}
+
+
+
+
+
+
+
+
+
+
+//ここ以降は以前のコード
+
+class mukashiGennaiEditor{
     private editArea:Element;
     private editAreaInner:Element;
     private editTargetElement:Element;
@@ -45,88 +123,4 @@ class tGennaiEditor{
         //console.log(this.editAreaInner);
         */
     }
-}
-
-class GennaiEditor{
-    constructor(target:Element){
-        //window['MathJax'].Hub.Queue(["Typeset",window['MathJax'].Hub,target]);
-        m.mount(target,new GEBase());
-    }
-}
-
-class ComponentBasic implements Mithril.Component<{},{}> {
-    public oninit:(vnode:Mithril.VnodeDOM<{},{}>)=>void;
-    public oncreate:(vnode:Mithril.VnodeDOM<{},{}>)=>void;
-    public onbeforeupdate:(vnode:Mithril.VnodeDOM<{},{}>,old)=>boolean;
-    public onupdate:(vnode:Mithril.VnodeDOM<{},{}>)=>void;
-    public onbeforeremove:(vnode:Mithril.VnodeDOM<{},{}>)=>void;
-    public onremove:(vnode:Mithril.VnodeDOM<{},{}>)=>void;
-
-    public view:()=> Mithril.Vnode<{},{}>
-
-    constructor(){
-        
-    }
-}
-
-class GEBase extends ComponentBasic{
-    constructor(){
-        super();
-        this.oncreate = (vnode)=>{
-            console.log(vnode.dom);
-        }
-
-        this.view = ()=>{
-            return m('div',[
-                m('div.rme-nav_area',{},[
-                    m('div.rme-nav_col',{},[
-                        m('p.control.has-addons',{},[
-                            m('input.input',{type:"text",placeholder:'Article Title'},''),
-                            m('a.button.is-info.postbutton',{},'投稿')
-                        ])
-                    ]),
-                    m(new GEEditMenu())
-                ]),
-                m('div.rme-editor_content',{},[
-                    m('pre.rme-editor_edit',m(new GEEditArea())),
-                    m(new GERenderArea())
-                ])
-            ]);
-        }
-    }
-}
-
-//入力領域のコンポーネント
-class GEEditArea extends ComponentBasic{
-    constructor(){
-        super();
-        this.view = ()=>{
-            return m('div.rme-editor_edit_inner',{contenteditable:true},m.trust(''));
-        }
-    }
-}
-
-//描画領域のコンポーネント
-class GERenderArea extends ComponentBasic{
-    constructor(){
-        super();
-        this.view = ()=>{
-            return m('div.rme-editor_render.content',{},'When $$$a \\ne 0$$$, there are two solutions to $$$ax^2 + bx + c = 0$$$ and they are$$$x = {-b \\pm \\sqrt{b^2-4ac} \\over 2a}.$$$');
-        }
-    }
-}
-
-class GEEditMenu extends ComponentBasic{
-    constructor(){
-        super();
-        this.view = ()=>{
-            return m('div.rme-nav_col.rme-editmenu',{},'Edit menu is here.');
-        }
-    }
-}
-
-//第一引数:ターゲットのdom 第二引数:初期値の配列
-//let hello = new tGennaiEditor(document.querySelector('.rme-editor_content'),["aa","bb"]);
-window.onload = function(){
-    let gennaiEditor = new GennaiEditor(document.querySelector('body'));
 }
